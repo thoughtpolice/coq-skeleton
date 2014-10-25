@@ -32,6 +32,6 @@ Makefile.coq: Makefile $(VS)
 
 clean:: Makefile.coq
 	$(Q)$(MAKE) $(MFLAGS) -f Makefile.coq clean
-	$(Q)rm -f Makefile.coq *.bak *.d *.glob *~
+	$(Q)rm -f Makefile.coq *.bak *.d *.glob *~ result*
 	$(Q)rm -f *.cmi *.cmo $(MLFILES) $(MLIFILES)
 	$(Q)rm -f Mod1
