@@ -1,4 +1,5 @@
-Makefile.coq
+/result*
+/Makefile.coq
 *~
 *.vo
 *.d
