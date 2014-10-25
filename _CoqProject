@@ -2,4 +2,6 @@
 ./SfLib.v
 ./CpdtTactics.v
 ./Mod1.v
-./Extract.v
+./ExtractHaskell.v
+./ExtractOcaml.v
+./Main.v

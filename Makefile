@@ -13,8 +13,8 @@ endif
 
 MODULES  := $(shell egrep "^.*\.v$$" _CoqProject | cut -c3- | rev | cut -c3- | rev)
 VS       := $(MODULES:%=%.v)
-MLFILES  := $(MODULES:%=%.ml)
-MLIFILES := $(MODULES:%=%.mli)
+HSFILES  := driver/hs/Mod1.hs
+MLFILES  := driver/ml/mod1.mli driver/ml/mod1.ml
 
 .PHONY: coq clean
 
@@ -22,9 +22,15 @@ coq: Makefile.coq
 	$(E) "  MAKE Makefile.coq"
 	$(Q)$(MAKE) $(MFLAGS) -f Makefile.coq
 
-extract: coq
-	$(E) "  OCAMLC Mod1"
-	$(Q)ocamlc -o Mod1 Mod1.mli Mod1.ml main.ml
+extract: extract-ocaml extract-haskell
+
+extract-haskell: coq
+	$(E) "  GHC      Mod1"
+	$(Q)ghc -O2  -o mod1.hs.exe -idriver/hs $(HSFILES) driver/hs/main.hs
+
+extract-ocaml: coq
+	$(E) "  OCAMLOPT Mod1"
+	$(Q)ocamlopt -o mod1.ml.exe -I driver/ml/ $(MLFILES) driver/ml/main.ml
 
 Makefile.coq: Makefile $(VS)
 	$(E) "  COQ_MAKEFILE Makefile.coq"
@@ -33,5 +39,7 @@ Makefile.coq: Makefile $(VS)
 clean:: Makefile.coq
 	$(Q)$(MAKE) $(MFLAGS) -f Makefile.coq clean
 	$(Q)rm -f Makefile.coq *.bak *.d *.glob *~ result*
-	$(Q)rm -f *.cmi *.cmo $(MLFILES) $(MLIFILES)
-	$(Q)rm -f Mod1
+	$(Q)rm -f *.exe *.cmi *.cmo $(MLFILES) $(HSFILES)
+	$(Q)rm -f driver/hs/*.hi driver/hs/*.o
+	$(Q)rm -f driver/ml/*.cmx driver/ml/*.cmi driver/ml/*.o
+

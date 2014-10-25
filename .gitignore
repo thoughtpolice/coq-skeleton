@@ -2,6 +2,10 @@
 /Makefile.coq
 *~
 *.vo
+*.cmx
+*.cmi
+*.hi
+*.o
 *.d
 *.mli
 *.glob
