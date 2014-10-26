@@ -21,6 +21,7 @@ MLFILES  := driver/ml/mod1.mli driver/ml/mod1.ml
 coq: Makefile.coq
 	$(E) "  MAKE Makefile.coq"
 	$(Q)$(MAKE) $(MFLAGS) -f Makefile.coq
+	$(Q)perl -i -pe 's/import qualified Prelude/import qualified Prelude\nimport qualified Data.Char\nimport qualified Data.Bits/' driver/hs/Mod1.hs
 
 extract: extract-ocaml extract-haskell
 
